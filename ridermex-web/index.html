@@ -544,6 +544,337 @@
       .hub-title { font-size: 1.25rem; }
       .hub-cta { padding: 0.55rem 0.8rem; font-size: 0.7rem; }
     }
+
+    /* ═══════════════════════════════════════════════════════
+       RIDER JOURNEY — Sección de proceso RiderMex
+       Textos editables en los divs .journey-step del HTML
+    ═══════════════════════════════════════════════════════ */
+
+    .journey-outer {
+      position: relative;
+      height: 450vh;
+      border-top: 1px solid var(--gris3);
+    }
+
+    .journey-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: grid;
+      grid-template-columns: 35% 65%;
+      background: var(--negro);
+      background-image:
+        linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+      background-size: 44px 44px;
+      overflow: hidden;
+    }
+
+    .journey-sticky::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--rojo), transparent 60%);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* ── Road column ── */
+    .journey-road-col {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .journey-road-col::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(204,0,0,.1) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .journey-road-svg {
+      width: 100%;
+      height: 88vh;
+      max-width: 260px;
+      position: relative;
+      z-index: 1;
+      overflow: visible;
+    }
+
+    /* ── Moto ── */
+    .journey-moto-wrap {
+      position: absolute;
+      z-index: 10;
+      top: 5%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      will-change: left, top, transform;
+    }
+
+    .journey-moto-glow {
+      position: absolute;
+      width: 110px; height: 110px;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(204,0,0,.45) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: jMotoGlow 2s ease-in-out infinite;
+    }
+
+    @keyframes jMotoGlow {
+      0%, 100% { opacity: .7; transform: translate(-50%,-50%) scale(1); }
+      50%       { opacity: 1; transform: translate(-50%,-50%) scale(1.2); }
+    }
+
+    .journey-moto-img {
+      width: 70px;
+      height: auto;
+      display: block;
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 0 14px rgba(204,0,0,.9)) drop-shadow(0 0 28px rgba(204,0,0,.5));
+      transition: filter .4s ease;
+    }
+
+    .journey-moto-wrap.is-final .journey-moto-img {
+      filter: drop-shadow(0 0 22px rgba(204,0,0,1)) drop-shadow(0 0 44px rgba(204,0,0,.7)) drop-shadow(0 0 66px rgba(204,0,0,.35));
+    }
+
+    /* Speed lines */
+    .journey-speed-line {
+      position: absolute;
+      left: 50%;
+      width: 1.5px;
+      border-radius: 1px;
+      background: linear-gradient(to bottom, transparent, rgba(204,0,0,.6), transparent);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .25s;
+    }
+    .journey-speed-line:nth-child(2) { height: 28px; margin-left: -14px; top: -34px; animation: jSpeedLine .55s ease-in-out infinite .0s; }
+    .journey-speed-line:nth-child(3) { height: 20px; margin-left:   0px; top: -26px; animation: jSpeedLine .55s ease-in-out infinite .08s; }
+    .journey-speed-line:nth-child(4) { height: 24px; margin-left:  14px; top: -30px; animation: jSpeedLine .55s ease-in-out infinite .04s; }
+
+    @keyframes jSpeedLine {
+      0%   { opacity: 0; transform: translateX(-50%) translateY(-6px); }
+      50%  { opacity: 1; }
+      100% { opacity: 0; transform: translateX(-50%) translateY(6px); }
+    }
+
+    .journey-moto-wrap.is-moving .journey-speed-line { opacity: 1; }
+
+    /* ── Content column ── */
+    .journey-content-col {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .journey-step {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 4rem 5rem 2.5rem;
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity .5s var(--ease), transform .5s var(--ease);
+      pointer-events: none;
+    }
+
+    .journey-step.is-active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .journey-step-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .68rem;
+      letter-spacing: .22em;
+      color: var(--gris3);
+      text-transform: uppercase;
+      margin-bottom: .9rem;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+    .journey-step-num::before {
+      content: '';
+      display: block;
+      width: 20px; height: 1.5px;
+      background: var(--rojo);
+      flex-shrink: 0;
+    }
+
+    .journey-eyebrow {
+      display: inline-block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .7rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--rojo);
+      background: rgba(204,0,0,.08);
+      border: 1px solid rgba(204,0,0,.3);
+      border-radius: 2px;
+      padding: .25rem .75rem;
+      margin-bottom: 1.2rem;
+      width: fit-content;
+    }
+
+    .journey-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 3.4vw, 3.2rem);
+      line-height: .96;
+      text-transform: uppercase;
+      color: var(--blanco);
+      margin-bottom: 1.25rem;
+      letter-spacing: -.01em;
+    }
+
+    .journey-title em { font-style: normal; color: var(--rojo); }
+
+    .journey-desc {
+      font-size: .95rem;
+      color: var(--texto);
+      max-width: 440px;
+      line-height: 1.75;
+      margin-bottom: 2.25rem;
+    }
+
+    .journey-cta-wrap { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; }
+
+    .journey-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      padding: .85rem 1.75rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: .95rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: opacity .2s, transform .2s, box-shadow .3s;
+      position: relative;
+      overflow: hidden;
+      border: none;
+    }
+
+    .journey-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -60%;
+      width: 40%; height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,.32), transparent);
+      transform: skewX(-20deg);
+      transition: left .6s var(--ease);
+    }
+    .journey-btn:hover::before { left: 130%; }
+    .journey-btn:hover { opacity: .88; transform: translateY(-2px); }
+
+    .journey-btn-primary {
+      background: var(--rojo);
+      color: var(--blanco);
+      box-shadow: 0 8px 24px rgba(204,0,0,.35);
+    }
+
+    .journey-btn-secondary {
+      background: transparent;
+      color: var(--rojo);
+      border: 1.5px solid var(--rojo) !important;
+    }
+    .journey-btn-secondary:hover {
+      box-shadow: 0 0 24px rgba(204,0,0,.22), inset 0 0 20px rgba(204,0,0,.06) !important;
+    }
+
+    /* Progress dots */
+    .journey-dots {
+      position: absolute;
+      right: 1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: .55rem;
+      z-index: 5;
+    }
+
+    .journey-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--gris3);
+      transition: background .3s, transform .3s, box-shadow .3s;
+    }
+    .journey-dot.done   { background: rgba(204,0,0,.35); }
+    .journey-dot.active { background: var(--rojo); transform: scale(1.8); box-shadow: 0 0 8px rgba(204,0,0,.7); }
+
+    /* Status badge */
+    .journey-status-badge {
+      position: absolute;
+      bottom: 1.75rem;
+      right: 2rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .62rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--rojo);
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      opacity: .65;
+      z-index: 5;
+    }
+    .journey-status-badge .jdot-live {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--rojo);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
+      .journey-outer { height: 500vh; }
+      .journey-sticky { grid-template-columns: 60px 1fr; }
+
+      .journey-road-svg { width: 60px; height: 86vh; max-width: none; }
+      .journey-moto-img { width: 42px; }
+      .journey-moto-glow { width: 80px; height: 80px; }
+
+      .journey-step { padding: 5rem 2.5rem 4rem 1rem; }
+      .journey-title { font-size: clamp(1.5rem, 7vw, 2.4rem); }
+      .journey-dots { right: .4rem; }
+      .journey-status-badge { right: .5rem; font-size: .56rem; }
+      .journey-content-col { overflow-y: hidden; }
+    }
+
+    /* ── Reduced motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      .journey-outer { height: auto; }
+      .journey-sticky { position: relative; height: auto; display: block; padding: 2rem 0; }
+      .journey-road-col { display: none; }
+      .journey-step {
+        position: relative; inset: auto;
+        opacity: 1 !important; transform: none !important;
+        padding: 2rem 2rem 2rem 1.5rem;
+        border-bottom: 1px solid var(--gris3);
+        pointer-events: auto;
+      }
+      .journey-dots, .journey-status-badge { display: none; }
+      .journey-moto-glow { animation: none; }
+      @keyframes jMotoGlow { from { opacity: 1; } to { opacity: 1; } }
+    }
   </style>
 </head>
 <body>
@@ -658,6 +989,186 @@
     </div>
   </div>
 
+  <!-- ═══════════════════════════════════════════════════════
+       RIDER JOURNEY — Sección del proceso de compra
+       TEXTOS EDITABLES: busca cada div .journey-step[data-step="N"]
+       y edita los elementos: .journey-step-num, .journey-eyebrow,
+       .journey-title y .journey-desc dentro de ese div.
+  ════════════════════════════════════════════════════════ -->
+  <section class="journey-outer" id="proceso" aria-label="Proceso RiderMex">
+    <div class="journey-sticky">
+
+      <!-- COLUMNA IZQUIERDA: Carretera SVG -->
+      <div class="journey-road-col">
+        <svg class="journey-road-svg"
+             viewBox="0 0 160 900"
+             preserveAspectRatio="none"
+             aria-hidden="true">
+          <defs>
+            <!-- Glow rojo para bordes y línea de progreso -->
+            <filter id="jRedGlow" x="-60%" y="-5%" width="220%" height="110%">
+              <feGaussianBlur stdDeviation="4" result="blur"/>
+              <feColorMatrix in="blur" type="matrix"
+                values="1.5 0 0 0 0.3  0 0 0 0 0  0 0 0 0 0  0 0 0 .85 0"
+                result="colored"/>
+              <feMerge>
+                <feMergeNode in="colored"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+            <!-- Fade superior e inferior -->
+            <linearGradient id="jFadeVert" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stop-color="#0A0A0A" stop-opacity="1"/>
+              <stop offset="6%"   stop-color="#0A0A0A" stop-opacity="0"/>
+              <stop offset="94%"  stop-color="#0A0A0A" stop-opacity="0"/>
+              <stop offset="100%" stop-color="#0A0A0A" stop-opacity="1"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Asfalto (área oscura de la carretera) -->
+          <path d="
+            M 50,0
+            C  0,200   0,350  50,450
+            C 100,550  100,700  50,900
+            L 110,900
+            C 160,700  160,550 110,450
+            C  60,350   60,200 110,0
+            Z
+          " fill="#161616"/>
+
+          <!-- Borde izquierdo con glow rojo -->
+          <path d="M 50,0 C 0,200 0,350 50,450 C 100,550 100,700 50,900"
+            fill="none" stroke="#CC0000" stroke-width="1.5"
+            filter="url(#jRedGlow)" opacity=".75"/>
+
+          <!-- Borde derecho sutil blanco -->
+          <path d="M 110,0 C 60,200 60,350 110,450 C 160,550 160,700 110,900"
+            fill="none" stroke="rgba(200,200,200,.18)" stroke-width="1"/>
+
+          <!-- Guías blancas centrales (dashes) -->
+          <path d="M 80,0 C 30,200 30,350 80,450 C 130,550 130,700 80,900"
+            fill="none" stroke="rgba(255,255,255,.22)" stroke-width="2"
+            stroke-dasharray="18 22"/>
+
+          <!-- Path oculto: la moto lo sigue con getPointAtLength -->
+          <path id="jRoadCenter"
+            d="M 80,0 C 30,200 30,350 80,450 C 130,550 130,700 80,900"
+            fill="none" stroke="none" visibility="hidden"/>
+
+          <!-- Línea roja de progreso (avanza con scroll) -->
+          <path id="jProgressLine"
+            d="M 80,0 C 30,200 30,350 80,450 C 130,550 130,700 80,900"
+            fill="none" stroke="#CC0000" stroke-width="2.5"
+            stroke-dasharray="0 1000"
+            filter="url(#jRedGlow)" opacity=".9"/>
+
+          <!-- Fade top/bottom -->
+          <rect width="160" height="900" fill="url(#jFadeVert)" pointer-events="none"/>
+        </svg>
+
+        <!-- Moto (posicionada con JS siguiendo jRoadCenter) -->
+        <div class="journey-moto-wrap" id="jMoto">
+          <div class="journey-moto-glow" aria-hidden="true"></div>
+          <div class="journey-speed-line" aria-hidden="true"></div>
+          <div class="journey-speed-line" aria-hidden="true"></div>
+          <div class="journey-speed-line" aria-hidden="true"></div>
+          <!--
+            LOGO DE LA MOTO
+            Ruta actual: assets/img/logo-white.png
+            Si cambia la ruta, modifica solo el atributo src de esta etiqueta:
+          -->
+          <img class="journey-moto-img"
+               src="assets/img/logo-white.png"
+               alt="Logo de RiderMex avanzando por el camino del proceso"/>
+        </div>
+      </div><!-- /journey-road-col -->
+
+      <!-- COLUMNA DERECHA: Pasos del proceso -->
+      <div class="journey-content-col">
+
+        <!-- ── PASO 1 ── data-step="0" ── EDITAR TEXTO AQUÍ ── -->
+        <div class="journey-step is-active" data-step="0">
+          <p class="journey-step-num">PASO 01 / 05</p>
+          <span class="journey-eyebrow">PROCESO RIDERMEX</span>
+          <h2 class="journey-title">TU CAMINO HACIA<br/><em>TU MOTO</em><br/>EMPIEZA AQUÍ</h2>
+          <p class="journey-desc">En RiderMex te acompañamos desde el primer contacto hasta que tienes tu moto lista para rodar.</p>
+        </div>
+
+        <!-- ── PASO 2 ── data-step="1" ── EDITAR TEXTO AQUÍ ── -->
+        <div class="journey-step" data-step="1">
+          <p class="journey-step-num">PASO 02 / 05</p>
+          <span class="journey-eyebrow">EN RUTA</span>
+          <h2 class="journey-title">TE ESCUCHAMOS Y<br/>ENTENDEMOS LO QUE<br/><em>NECESITAS</em></h2>
+          <p class="journey-desc">Nuestro equipo revisa tu perfil, tus objetivos y la mejor forma de ayudarte a avanzar de manera clara y segura.</p>
+        </div>
+
+        <!-- ── PASO 3 ── data-step="2" ── EDITAR TEXTO AQUÍ ── -->
+        <div class="journey-step" data-step="2">
+          <p class="journey-step-num">PASO 03 / 05</p>
+          <span class="journey-eyebrow">RECORRIDO ACTIVO</span>
+          <h2 class="journey-title">PREPARAMOS TU<br/>PROCESO DE FORMA<br/><em>ORDENADA</em></h2>
+          <p class="journey-desc">Te guiamos con la documentación, validación, contrato y pasos necesarios para que todo sea claro desde el inicio.</p>
+        </div>
+
+        <!-- ── PASO 4 ── data-step="3" ── EDITAR TEXTO AQUÍ ── -->
+        <div class="journey-step" data-step="3">
+          <p class="journey-step-num">PASO 04 / 05</p>
+          <span class="journey-eyebrow">CAMINO COMPLETADO</span>
+          <h2 class="journey-title">TU MOTO,<br/><em>LISTA PARA</em><br/>ARRANCAR</h2>
+          <p class="journey-desc">Cerramos el proceso contigo y te acompañamos hasta que estés listo para subirte a tu nueva moto.</p>
+          <div class="journey-cta-wrap">
+            <!--
+              CTA PRINCIPAL: WhatsApp RiderMex
+              Si cambia el número de WhatsApp, edita solo el href de este enlace.
+              Número actual: 525599900619
+            -->
+            <a class="journey-btn journey-btn-primary"
+               href="https://wa.me/525599900619?text=Hola%2C%20quiero%20empezar%20mi%20proceso%20con%20RiderMex"
+               target="_blank" rel="noopener">
+              QUIERO EMPEZAR MI PROCESO →
+            </a>
+          </div>
+        </div>
+
+        <!-- ── PASO 5 ── data-step="4" ── EDITAR TEXTO AQUÍ ── -->
+        <div class="journey-step" data-step="4">
+          <p class="journey-step-num">PASO 05 / 05</p>
+          <span class="journey-eyebrow">NUEVA RUTA DISPONIBLE</span>
+          <h2 class="journey-title">PERO EL CAMINO<br/>NO SE <em>DETIENE</em><br/>AQUÍ</h2>
+          <p class="journey-desc">Si este camino no es para ti, también puedes comenzar el camino de la inversión con RiderMex.</p>
+          <div class="journey-cta-wrap">
+            <!--
+              CTA HACIA INVERSIONES
+              Ruta actual: inversiones.html
+              Si cambia la ruta de la página de inversiones, edita el href aquí:
+            -->
+            <a class="journey-btn journey-btn-secondary"
+               href="inversiones.html">
+              RIDERMEX INVERSIONES →
+            </a>
+          </div>
+        </div>
+
+        <!-- Dots de progreso lateral -->
+        <div class="journey-dots" id="jDots" aria-hidden="true">
+          <div class="journey-dot active" data-dot="0"></div>
+          <div class="journey-dot" data-dot="1"></div>
+          <div class="journey-dot" data-dot="2"></div>
+          <div class="journey-dot" data-dot="3"></div>
+          <div class="journey-dot" data-dot="4"></div>
+        </div>
+
+      </div><!-- /journey-content-col -->
+
+      <!-- Status badge inferior -->
+      <div class="journey-status-badge" id="jStatusBadge" aria-live="polite">
+        <span class="jdot-live"></span>
+        <span id="jStatusText">EN RUTA</span>
+      </div>
+
+    </div><!-- /journey-sticky -->
+  </section><!-- /journey-outer -->
+
   <!-- FOOTER -->
   <footer>
     <span>© 2026 RiderMex · Financiamos tu libertad</span>
@@ -720,6 +1231,136 @@
         panel.style.setProperty('--my', (e.clientY - rect.top) + 'px');
       });
     });
+
+    // ══════════════════════════════════════════════════════════════
+    // RIDER JOURNEY — Animación controlada por scroll
+    // El progreso del scroll (0-1) mueve la moto y cambia los pasos.
+    // Los TEXTOS se editan en el HTML dentro de cada .journey-step.
+    //
+    // Etiquetas de estado por paso (editables aquí):
+    //   statusLabels[0] → paso 1, statusLabels[4] → paso 5
+    // ══════════════════════════════════════════════════════════════
+    (function () {
+      const outer       = document.querySelector('.journey-outer');
+      if (!outer) return;
+
+      const motoWrap    = document.getElementById('jMoto');
+      const roadSvg     = document.querySelector('.journey-road-svg');
+      const roadCenter  = document.getElementById('jRoadCenter');
+      const progressLine= document.getElementById('jProgressLine');
+      const steps       = document.querySelectorAll('.journey-step');
+      const dots        = document.querySelectorAll('.journey-dot');
+      const statusText  = document.getElementById('jStatusText');
+      const roadCol     = document.querySelector('.journey-road-col');
+
+      // Etiquetas editables para el badge de estado inferior
+      const statusLabels = [
+        'EN RUTA',
+        'EN RUTA',
+        'RECORRIDO ACTIVO',
+        'CAMINO COMPLETADO',
+        'NUEVA RUTA DISPONIBLE'
+      ];
+
+      let currentStep  = 0;
+      let pathLength   = 900;
+      let rafId        = null;
+      let lastProgress = -1;
+      let isMoving     = false;
+      let moveTimer    = null;
+
+      function initJourney() {
+        // Prefers-reduced-motion: sin animación, todo visible estático
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          steps.forEach(s => s.classList.add('is-active'));
+          return;
+        }
+        try { pathLength = roadCenter.getTotalLength(); } catch (e) { pathLength = 900; }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+      }
+
+      function getProgress() {
+        const rect   = outer.getBoundingClientRect();
+        const total  = outer.offsetHeight - window.innerHeight;
+        return Math.max(0, Math.min(1, -rect.top / total));
+      }
+
+      function onScroll() {
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(render);
+      }
+
+      function render() {
+        const p = getProgress();
+        if (Math.abs(p - lastProgress) < 0.0005) return;
+        const moved = Math.abs(p - lastProgress) > 0.001;
+        lastProgress = p;
+
+        // ── Posición de la moto siguiendo el path SVG ──
+        try {
+          const svgRect = roadSvg.getBoundingClientRect();
+          const colRect = roadCol.getBoundingClientRect();
+          const pt      = roadCenter.getPointAtLength(p * pathLength);
+          const scaleX  = svgRect.width  / 160;
+          const scaleY  = svgRect.height / 900;
+
+          const mX = pt.x * scaleX + (svgRect.left - colRect.left);
+          const mY = pt.y * scaleY + (svgRect.top  - colRect.top);
+
+          // Ángulo de rotación según tangente del path
+          const ahead = roadCenter.getPointAtLength(Math.min(p * pathLength + 15, pathLength));
+          const angle = Math.atan2(ahead.x - pt.x, ahead.y - pt.y) * 180 / Math.PI;
+
+          motoWrap.style.left      = mX + 'px';
+          motoWrap.style.top       = mY + 'px';
+          motoWrap.style.transform = 'translate(-50%,-50%) rotate(' + (angle * 0.35) + 'deg)';
+        } catch (e) {
+          // Fallback sin SVG getPointAtLength
+          const colH = roadCol.offsetHeight;
+          motoWrap.style.left      = '50%';
+          motoWrap.style.top       = (p * colH * 0.86 + colH * 0.05) + 'px';
+          motoWrap.style.transform = 'translate(-50%,-50%)';
+        }
+
+        // ── Línea roja de progreso sobre la carretera ──
+        if (progressLine) {
+          progressLine.style.strokeDasharray = (p * pathLength) + ' ' + pathLength;
+        }
+
+        // ── Paso activo (0 a 4, cada 20% del scroll) ──
+        const stepIdx = Math.min(4, Math.floor(p * 5));
+        if (stepIdx !== currentStep) {
+          steps[currentStep]?.classList.remove('is-active');
+          currentStep = stepIdx;
+          steps[currentStep]?.classList.add('is-active');
+          dots.forEach((d, i) => {
+            d.classList.toggle('done',   i < currentStep);
+            d.classList.toggle('active', i === currentStep);
+          });
+          if (statusText) statusText.textContent = statusLabels[currentStep] || 'EN RUTA';
+        }
+
+        // ── Glow final intensificado al llegar al paso 5 ──
+        motoWrap.classList.toggle('is-final', p >= 0.92);
+
+        // ── Speed lines mientras el usuario hace scroll ──
+        if (moved) {
+          clearTimeout(moveTimer);
+          if (!isMoving) { isMoving = true; motoWrap.classList.add('is-moving'); }
+          moveTimer = setTimeout(() => {
+            isMoving = false;
+            motoWrap.classList.remove('is-moving');
+          }, 320);
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initJourney);
+      } else {
+        initJourney();
+      }
+    })();
 
     // Redirección automática según ?ref= en la URL (campañas/anuncios)
     const params = new URLSearchParams(window.location.search);
